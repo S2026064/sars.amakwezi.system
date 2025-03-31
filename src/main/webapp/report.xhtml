@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+    </h:head>
+    <h:body>
+        <ui:composition template="/template/template.xhtml">
+            <ui:define name="maincontent">
+                <b:panel rendered="#{reportBean.viewSearchReport}" look="default" collapsed="false" collapsible="false">
+                    <f:facet name="heading">
+                        <b:panelGrid colSpans="12" size="lg" styleClass="ui-fluid">
+                            <p:outputLabel value="Section Report" styleClass="panel-title-css"/>
+                            <p:separator/>
+                            <b:panelGrid colSpans="12" size="lg" styleClass="ui-fluid">
+                                <b:formGroup>
+                                    <p:outputLabel value="Report Type"/>
+                                    <p:selectOneMenu  value="#{reportBean.reportType}" required="true" converter="entityConverter" rendered="true" requiredMessage="Please select the report type">
+                                        <f:selectItem itemLabel="Select One" itemValue="" noSelectionOption="true"/>
+                                        <f:selectItems value="#{reportBean.reportTypes}" var="reportType" itemLabel="#{reportType.toString()}" itemValue="#{reportType}"/>
+                                    </p:selectOneMenu>
+                                </b:formGroup>
+                            </b:panelGrid>
+                            <b:panelGrid colSpans="6,6" size="lg" styleClass="ui-fluid">
+                                <b:formGroup>
+                                    <p:outputLabel value="Start Date"/>
+                                    <p:datePicker pattern="dd MMMM yyyy" value="#{reportBean.startDate}" showIcon="true"/>
+                                </b:formGroup>
+                                <b:formGroup> 
+                                    <p:outputLabel value="End Date"/>
+                                    <p:datePicker pattern="dd MMMM yyyy" value="#{reportBean.endDate}" showIcon="true"/>
+                                </b:formGroup>
+                            </b:panelGrid>
+                            <b:row>
+                                <b:commandButton large-screen="full-width" size="lg" value="View Report" look="success" action="#{reportBean.viewReport()}" update="@form" />                                
+                            </b:row>                           
+                        </b:panelGrid>
+                    </f:facet>
+                </b:panel>
+                <b:panel  rendered="#{reportBean.viewCostCentreReport}" look="default" collapsed="false" collapsible="false">
+                    <f:facet name="heading">
+                        <b:panelGrid colSpans="12" size="lg" styleClass="ui-fluid">
+                            <p:outputLabel value="#{reportBean.panelTitleName}" styleClass="panel-title-css"/>
+                            <p:separator/>
+                        </b:panelGrid>                        
+                    </f:facet>
+                    <p:dataTable id="costCentreReport" var="costCentre" value="#{reportBean.costCentreReports}" rows="10"
+                                 paginator="true" paginatorAlwaysVisible="false" paginatorPosition="top"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15">
+                        <f:facet name="header">
+                            <p:toolbar>
+                                <f:facet name="right">
+                                    <p:commandButton id="toggler" type="button" value="Columns" style="float:left" icon="pi pi-align-justify" />
+                                    <p:columnToggler datasource="costCentreReport" trigger="toggler" />
+                                    <h:commandLink style="float:right">
+                                        <p:graphicImage library="images" name="excel.jpg" width="26"/>
+                                        <p:dataExporter  target="costCentreReport" type="xls" fileName="CostCentre_report"/>
+                                    </h:commandLink>
+                                </f:facet>
+                            </p:toolbar>
+                        </f:facet>
+                        <p:column headerText="Nomination head id" sortBy="#{costCentre.referenceId}" styleClass="small">
+                            <h:outputText value="#{costCentre.referenceId}"/>
+                        </p:column>
+                        <p:column headerText="Capture Date" styleClass="medium">
+                            <h:outputText value="#{costCentre.createdDate}">
+                                <f:convertDateTime pattern="dd MMMM yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Nominee Participant Code " styleClass="large">
+                            <h:outputText value="#{costCentre.nominee.empDetails.personnelNum}" />
+                        </p:column>
+                        <p:column headerText="Nominee S-ID" styleClass="large">
+                            <h:outputText value="#{costCentre.nominee.employeeSid}"/>
+                        </p:column>
+                        <p:column headerText="Nominee full name" styleClass="large">
+                            <h:outputText value="#{costCentre.nominee.empDetails.fullnames}"/>
+                        </p:column>
+                        <p:column headerText="Nominee’s CC Number" styleClass="large" visible="false">
+                            <h:outputText value="#{costCentre.nominee.empDetails.costCenterNumber}"/>
+                        </p:column>
+                        <p:column headerText="Nominee’s CC Name" styleClass="large">
+                            <h:outputText value="#{costCentre.nominee.empDetails.costCenterName}"/>
+                        </p:column>
+                        <p:column headerText="Contribution " styleClass="large">
+                            <h:outputText value="#{costCentre.contribution.description} , R#{costCentre.contribution.amount}0"/>
+                        </p:column>
+                        <p:column headerText="Date " styleClass="large">
+                            <h:outputText value="#{costCentre.approvedDate}">
+                                <f:convertDateTime pattern="dd MMMM yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Nominator Participant Code " styleClass="large" visible="false">
+                            <h:outputText value="#{costCentre.nominator.empDetails.personnelNum}"/>
+                        </p:column>
+                        <p:column headerText="Nominator’S-ID " styleClass="large" visible="false">
+                            <h:outputText value="#{costCentre.nominator.employeeSid}"/>
+                        </p:column>
+                        <p:column headerText="Nominator’s full name" styleClass="large">
+                            <h:outputText value="#{costCentre.nominator.empDetails.fullnames}"/>
+                        </p:column>
+                        <p:column headerText="Nominator’s CC Number " styleClass="large" visible="false">
+                            <h:outputText value="#{costCentre.nominator.empDetails.costCenterNumber}"/>
+                        </p:column>
+                        <p:column headerText="Nominator’s CC Name " styleClass="large">
+                            <h:outputText value="#{costCentre.nominator.empDetails.costCenterName}"/>
+                        </p:column>
+                    </p:dataTable>
+                </b:panel>
+                <b:panel rendered="#{reportBean.viewCapturedNominations}" look="default" collapsed="false" collapsible="false">
+                    <f:facet name="heading">
+                        <b:panelGrid colSpans="12" size="lg" styleClass="ui-fluid">
+                            <p:outputLabel value="#{reportBean.panelTitleName}" styleClass="panel-title-css"/>
+                            <p:separator/>
+                        </b:panelGrid>
+                    </f:facet>
+                    <p:dataTable id="capturedNominations" var="nom" value="#{reportBean.nominationReports}" rows="10"
+                                 paginator="true" paginatorAlwaysVisible="false" filteredValue="#{reportBean.selectedNominationReports}" paginatorPosition="top"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15">
+                        <f:facet name="header">
+                            <p:toolbar>
+                                <f:facet name="right">
+                                    <p:commandButton id="toggler" type="button" value="Columns" style="float:left" icon="pi pi-align-justify" />
+                                    <p:columnToggler datasource="capturedNominations" trigger="toggler" />
+                                    <h:commandLink style="float:right">
+                                        <p:graphicImage library="images" name="excel.jpg" width="26"/>
+                                        <p:dataExporter  target="capturedNominations" type="xls" fileName="Captured Nominations"/>
+                                    </h:commandLink>
+                                </f:facet>
+                            </p:toolbar>
+                        </f:facet>
+                        <p:column filterBy="#{nom.nomination.referenceId}" headerText="Nomination Head ID" styleClass="large" sortBy="#{nom.nomination.referenceId}">
+                            <h:outputText value="#{nom.nomination.referenceId}"/>
+                        </p:column>
+                        <p:column headerText="Capture Date" styleClass="large" >
+                            <h:outputText value="#{nom.nomination.createdDate}">
+                                <f:convertDateTime pattern="dd MMMM yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Nominee Participant Code" styleClass="large">
+                            <h:outputText value="#{nom.nominee.empDetails.personnelNum}"/>
+                        </p:column>
+                        <p:column headerText="Nominee Full Names" styleClass="large">
+                            <h:outputText value="#{nom.nominee.empDetails.fullnames}"/>
+                        </p:column>
+                        <p:column headerText="Nominee Sid" styleClass="large">
+                            <h:outputText value="#{nom.nominee.employeeSid}"/>
+                        </p:column>
+                        <p:column headerText="Nominator Participant Code" styleClass="large" visible="false">
+                            <h:outputText value="#{nom.nomination.nominator.employee.empDetails.personnelNum}"/>
+                        </p:column>
+                        <p:column headerText="Nominator Sid" visible="false" styleClass="large">
+                            <h:outputText value="#{nom.nomination.nominator.employee.employeeSid}"/>
+                        </p:column>
+                        <p:column headerText="Nominator Full Names" styleClass="large">
+                            <h:outputText value="#{nom.nomination.nominator.employee.empDetails.fullnames}"/>
+                        </p:column>
+                        <p:column headerText="Nominators CC No." visible="false" styleClass="large">
+                            <h:outputText value="#{nom.nomination.costCentreNumber}"/>
+                        </p:column>
+                        <p:column headerText="Nominators CC Desc" visible="false" styleClass="large">
+                            <h:outputText value="#{nom.nomination.costCentreName}"/>
+                        </p:column>
+                        <p:column headerText="CC Manager Participant Code" visible="false" styleClass="large">
+                            <h:outputText value="#{nom.nomination.costCentreEmployeeNumber}" rendered="#{nom.nomination.rerouteCostCentreEmployeeNumber eq null}"/>
+                            <h:outputText value="#{nom.nomination.rerouteCostCentreEmployeeNumber}" rendered="#{nom.nomination.rerouteCostCentreEmployeeNumber ne null}"/>
+                        </p:column>
+                        <p:column headerText="CC Manager S-ID" visible="false" styleClass="large">
+                            <h:outputText value="#{nom.nomination.costCenterManagerSid}" rendered="#{nom.nomination.reroutecostCenterManagerSid eq null}"/>
+                            <h:outputText value="#{nom.nomination.reroutecostCenterManagerSid}" rendered="#{nom.nomination.reroutecostCenterManagerSid ne null}"/>
+                        </p:column>
+                        <p:column headerText="Approver Full Names" styleClass="large">
+                            <h:outputText value="#{nom.nomination.costCenterManagerFullnames}" rendered="#{nom.nomination.reroutecostCenterManagerFullnames eq null}"/>
+                            <h:outputText value="#{nom.nomination.reroutecostCenterManagerFullnames}" rendered="#{nom.nomination.reroutecostCenterManagerFullnames ne null}"/>
+                        </p:column>
+                        <p:column headerText="Fin Manager Participant Code" visible="false" styleClass="large">
+                            <h:outputText value="#{nom.nomination.financeManagerEmployeeNumber}" rendered="#{nom.nomination.reroutefinanceManagerEmployeeNumber eq null}"/>
+                            <h:outputText value="#{nom.nomination.reroutefinanceManagerEmployeeNumber}" rendered="#{nom.nomination.reroutefinanceManagerEmployeeNumber ne null}"/>
+                        </p:column>
+                        <p:column headerText="Fin Manager S-ID" visible="false" styleClass="large">
+                            <h:outputText value="#{nom.nomination.financeManagerSid}" rendered="#{nom.nomination.reroutefinanceManagerSid eq null}"/>
+                            <h:outputText value="#{nom.nomination.reroutefinanceManagerSid}" rendered="#{nom.nomination.reroutefinanceManagerSid ne null}"/>
+                        </p:column>
+                        <p:column headerText="Fin Manager Full Names " styleClass="large">
+                            <h:outputText value="#{nom.nomination.financeManagerFullnames}" rendered="#{nom.nomination.reroutefinanceManagerFullnames eq null}"/>
+                            <h:outputText value="#{nom.nomination.reroutefinanceManagerFullnames}" rendered="#{nom.nomination.reroutefinanceManagerFullnames ne null}"/>
+                        </p:column>
+                        <p:column headerText="Nomination Category" visible="false" styleClass="large">
+                            <h:outputText value="#{nom.nomination.category.description}"/>
+                        </p:column>
+                        <p:column headerText="Nomination Motivation" visible="false" styleClass="large">
+                            <h:outputText value="#{nom.nomination.motivation}"/>
+                        </p:column>
+                        <p:column headerText="Org Unit ID" visible="false" styleClass="large">
+                            <h:outputText value="#{nom.nominee.empDetails.orgUnitId}"/>
+                        </p:column>
+                        <p:column headerText="Org Unit Name" visible="false" styleClass="large">
+                            <h:outputText value="#{nom.nominee.empDetails.orgUnitName}"/>
+                        </p:column>
+                        <p:column headerText="Nominee’s CC Number" visible="false" styleClass="large">
+                            <h:outputText value="#{nom.nominee.empDetails.costCenterNumber}"/>
+                        </p:column>
+                        <p:column headerText="Nominee’s CC Name" visible="false" styleClass="large">
+                            <h:outputText value="#{nom.nominee.empDetails.costCenterName}"/>
+                        </p:column>
+                        <p:column headerText="OrgKey - code" visible="false" styleClass="large">
+                            <h:outputText value="#{nom.nominee.empDetails.orgKey}"/>
+                        </p:column>
+                        <p:column headerText="Region" visible="false" styleClass="large">
+                            <h:outputText value="#{nom.nominee.empDetails.orgKeyName}"/>
+                        </p:column>
+                        <p:column headerText="Division - PSA" visible="false" styleClass="large">
+                            <h:outputText value="#{nom.nominee.subDivision}"/>
+                        </p:column>
+                        <p:column headerText="Functional Area -PA" visible="false" styleClass="large">
+                            <h:outputText value="#{nom.nominee.divisionName}"/>
+                        </p:column>
+                        <p:column headerText="Status" styleClass="large">
+                            <h:outputText value="#{nom.nomination.nominationStatus.toString()}"/>
+                        </p:column>
+                        <p:column headerText="CC status " styleClass="large">
+                            <h:outputText value="#{nom.nomination.costCentreManagerStatus.toString()}"/>
+                        </p:column>
+                        <p:column headerText="Finance Status" styleClass="large" >
+                            <h:outputText value="#{nom.nomination.financeManagerStatus.toString()}"/>
+                        </p:column>
+                        <p:column headerText="Rand value " visible="false" styleClass="large">
+                            <h:outputText value="R #{nom.nomination.contribution.amount}0"/>
+                        </p:column>
+                        <p:column headerText="Approval date " styleClass="large">
+                            <h:outputText rendered="#{nom.nomination.nominationStatus eq 'APPROVED' or nom.nomination.nominationStatus eq 'REJECTED'}" value="#{nom.nomination.updatedDate}">
+                                <f:convertDateTime pattern="dd MMMM yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Nomination Type: " visible="false" styleClass="large">
+                            <h:outputText value="#{nom.nomination.nominationType.toString()}"/>
+                        </p:column>
+                        <p:column headerText="Rejection Reason" visible="false" styleClass="large">
+                            <h:outputText rendered="#{nom.nomination.nominationStatus eq 'REJECTED'}" value="#{nom.nomination.rejectionReason.description}"/>
+                        </p:column>
+                         <p:column headerText="Last Updated By" styleClass="large" visible="false">
+                            <h:outputText value="#{nom.nomination.updatedBy}"/>
+                        </p:column>
+                        <p:column headerText="Last Updated Date" styleClass="large">
+                            <h:outputText value="#{nom.nomination.updatedDate}"> 
+                                <f:convertDateTime pattern="dd MMMM yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>
+                </b:panel>
+                <b:panel rendered="#{reportBean.viewPayrollReport}" look="default" collapsed="false" collapsible="false">
+                    <f:facet name="heading">
+                        <b:panelGrid colSpans="12" size="lg" styleClass="ui-fluid">
+                            <p:outputLabel value="#{reportBean.panelTitleName}" styleClass="panel-title-css"/>
+                            <p:separator/>
+                            <b:panelGrid colSpans="6,6" size="lg" styleClass="ui-fluid">
+
+                                <p:datePicker pattern="dd MMMM yyyy" value="#{reportBean.payrollDate}" showIcon="true"/> 
+                                <b:commandButton large-screen="full-width" value="Process Payroll  Date" look="primary" size="lg" action="#{reportBean.processPayrollDate()}" update="@form"/>
+
+                            </b:panelGrid>
+                        </b:panelGrid>
+                    </f:facet>
+                    <p:dataTable id="payrollReport" var="payroll" value="#{reportBean.payrollReports}" rows="10"
+                                 paginator="true" paginatorAlwaysVisible="false" paginatorPosition="top" selection="#{reportBean.selectedPayrollReports}" rowKey="#{payroll.id}"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15">
+                        <f:facet name="header">
+                            <p:toolbar>
+                                <f:facet name="right">
+                                    <p:commandButton id="toggler" type="button" value="Columns" style="float:left" icon="pi pi-align-justify" />
+                                    <p:columnToggler datasource="payrollReport" trigger="toggler"/>
+                                    <h:commandLink style="float:right">
+                                        <p:graphicImage library="images" name="excel.jpg" width="26"/>
+                                        <p:dataExporter  target="payrollReport" type="xls" fileName="Amakhwezi_Payroll"/>
+                                    </h:commandLink>
+                                </f:facet>
+                            </p:toolbar>
+                        </f:facet>
+                        <p:column selectionMode="multiple" style="width: 35px;text-align: center"/>
+                        <p:column headerText="Unique nr" styleClass="large">
+                            <h:outputText value="#{payroll.referenceId}"/>
+                        </p:column>
+                        <p:column headerText="Employee ID" styleClass="large" visible="false">
+                            <h:outputText value="#{payroll.nominee.empDetails.personnelNum}"/>
+                        </p:column>
+                        <p:column headerText="Surname" styleClass="large">
+                            <h:outputText value="#{payroll.nominee.empDetails.lastName}"/>
+                        </p:column>
+                        <p:column headerText="Initials" styleClass="large" visible="false">
+                            <h:outputText value="#{payroll.nominee.empDetails.intials}"/>
+                        </p:column>
+                        <p:column headerText="Date" styleClass="large">
+                            <h:outputText value="#{payroll.approvedDate}" >
+                                <f:convertDateTime pattern="dd MMMM yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="WT" styleClass="large">
+                            <h:outputText value="#{payroll.wageType}"/>
+                        </p:column> 
+                        <p:column headerText="Amount" styleClass="large">
+                            <h:outputText value="#{payroll.amount}0"/>
+                        </p:column>
+                        <p:column headerText="Reference nr" styleClass="large">
+                            <h:outputText value="#{payroll.refferenceNo}">
+                                <f:convertDateTime pattern="MMMM-yy"/>
+                            </h:outputText>
+                        </p:column>                         
+                    </p:dataTable>
+                </b:panel>
+                <b:panel rendered="#{reportBean.viewReroutedReport}" look="default" collapsed="false" collapsible="false">
+                    <f:facet name="heading">
+                        <b:panelGrid colSpans="12" size="lg" styleClass="ui-fluid">
+                            <p:outputLabel value="#{reportBean.panelTitleName}" styleClass="panel-title-css"/>
+                            <p:separator/>
+                        </b:panelGrid>
+                    </f:facet>
+                    <p:dataTable id="reroutedReports" var="nom" value="#{reportBean.reroutedReports}" rows="10"
+                                 paginator="true" paginatorAlwaysVisible="false" filteredValue="#{reportBean.selectedReroutedReports}" paginatorPosition="top"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15">
+                        <f:facet name="header">
+                            <p:toolbar>
+                                <f:facet name="right">
+                                    <p:commandButton id="toggler" type="button" value="Columns" style="float:left" icon="pi pi-align-justify" />
+                                    <p:columnToggler datasource="reroutedReports" trigger="toggler" />
+                                    <h:commandLink style="float:right">
+                                        <p:graphicImage library="images" name="excel.jpg" width="26"/>
+                                        <p:dataExporter  target="reroutedReports" type="xls" fileName="rerouted Reports"/>
+                                    </h:commandLink>
+                                </f:facet>
+                            </p:toolbar>
+                        </f:facet>
+                        <p:column filterBy="#{nom.nomination.referenceId}" headerText="Nomination Head ID" styleClass="large" sortBy="#{nom.nomination.referenceId}">
+                            <h:outputText value="#{nom.nomination.referenceId}"/>
+                        </p:column>
+                        <p:column headerText="Nomanition Date" styleClass="large" >
+                            <h:outputText value="#{nom.nomination.createdDate}">
+                                <f:convertDateTime pattern="dd MMMM yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Nominator Sid" visible="false" styleClass="large">
+                            <h:outputText value="#{nom.nomination.nominator.employee.employeeSid}"/>
+                        </p:column>
+                        <p:column headerText="Nominator Full Names" styleClass="large">
+                            <h:outputText value="#{nom.nomination.nominator.employee.empDetails.fullnames}"/>
+                        </p:column>
+                        <p:column headerText="Nominators CC No." visible="false" styleClass="large">
+                            <h:outputText value="#{nom.nomination.costCentreNumber}"/>
+                        </p:column>
+                        <p:column headerText="Original CC Manager S-ID" visible="false" styleClass="large">
+                            <h:outputText value="#{nom.nomination.costCenterManagerSid}"/>
+                        </p:column>
+                        <p:column headerText="Original CC Manager Full Names" styleClass="large">
+                            <h:outputText value="#{nom.nomination.costCenterManagerFullnames}"/>
+                        </p:column>
+                        <p:column headerText="Original Fin Manager S-ID" visible="false" styleClass="large">
+                            <h:outputText value="#{nom.nomination.financeManagerSid}"/>
+                        </p:column>
+                        <p:column headerText="Original Fin Manager Full Names" styleClass="large">
+                            <h:outputText value="#{nom.nomination.financeManagerFullnames}"/>
+                        </p:column>
+                        <p:column headerText="Reroute CC Manager S-ID" visible="false" styleClass="large">
+                            <h:outputText value="#{nom.nomination.reroutecostCenterManagerSid}"/>
+                        </p:column>
+                        <p:column headerText="Reroute CC Manager Full Names" styleClass="large">
+                            <h:outputText value="#{nom.nomination.reroutecostCenterManagerFullnames}"/>
+                        </p:column>
+                        <p:column headerText="Reroute Fin Manager S-ID" visible="false" styleClass="large">
+                            <h:outputText value="#{nom.nomination.reroutefinanceManagerSid}"/>
+                        </p:column>
+                        <p:column headerText="Reroute Fin Manager Full Names" styleClass="large">
+                            <h:outputText value="#{nom.nomination.reroutefinanceManagerFullnames}"/>
+                        </p:column>
+                        <p:column headerText="Rerouter S-ID" styleClass="large">
+                            <h:outputText value="#{nom.nomination.rerouterSid}"/>
+                        </p:column>
+                        <p:column headerText="Rerouted Date" styleClass="large" >
+                            <h:outputText value="#{nom.nomination.reroutedDate}">
+                                <f:convertDateTime pattern="dd MMMM yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText=" Nomination Status" styleClass="large">
+                            <h:outputText value="#{nom.nomination.nominationStatus.toString()}"/>
+                        </p:column>
+                    </p:dataTable>
+                </b:panel>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui">
+    <h:body>
+        <ui:composition template="/template/template.xhtml">
+            <ui:define name="maincontent">
+                <b:panel rendered="#{rejectionReasonBean.list}" look="default"  collapsible="false">
+                    <f:facet name="heading">
+                        <b:panelGrid colSpans="12" size="lg" styleClass="ui-fluid">
+                            <p:outputLabel value="#{rejectionReasonBean.panelTitleName}" styleClass="panel-title-css"/>
+                            <p:separator/>
+                        </b:panelGrid>
+                    </f:facet>
+                    <p:dataTable value="#{rejectionReasonBean.collections}" var="rej" paginator="true" paginatorPosition="top" paginatorAlwaysVisible="false" reflow="true" rows="10">
+                        <f:facet name="header">
+                            <p:toolbar>
+                                <f:facet name="left">
+                                    <b:commandButton iconSize="lg" size="lg" iconAwesome="fa-plus" look="primary" value="Add" disabled="#{not reportBean.activeUser.userRole.permission.add}" action="#{rejectionReasonBean.addOrUpdate(null)}" update="@form"/>
+                                </f:facet>
+                            </p:toolbar>
+                        </f:facet>
+                        <p:column headerText="Created Date">
+                            <h:outputText value="#{rej.createdDate}">
+                                <f:convertDateTime pattern="yyyy MM dd"/>
+                            </h:outputText>
+                        </p:column>
+                         <p:column headerText="Description">
+                             <h:outputText value="#{rej.description}"/>
+                        </p:column>
+                        <p:column headerText="Action" styleClass="xlarge">
+                            <b:commandButton look="primary" value="Edit" size="sm" icon-size="xs" iconBrand="5.2.0" icon-awesome="fa-pencil" disabled="#{not reportBean.activeUser.userRole.permission.update}" action="#{rejectionReasonBean.addOrUpdate(rej)}" update="@form"/>
+                            <p:spacer width="5px"/>
+                            <b:commandButton look="danger" value="Delete" size="sm" icon-size="xs" iconBrand="5.2.0" icon-awesome="fa-trash" disabled="#{not reportBean.activeUser.userRole.permission.delete}" action="#{rejectionReasonBean.delete(rej)}" update="@form"/>
+                        </p:column>
+                    </p:dataTable>
+                </b:panel>
+                <b:panel rendered="#{rejectionReasonBean.add}" look="default" collapsible="false">
+                    <f:facet name="heading">
+                        <p:outputLabel value="#{rejectionReasonBean.panelTitleName}" styleClass="panel-title-css"/>
+                    </f:facet>
+                    <b:panelGrid colSpans="12" size="lg" style-class="ui-fluid"> 
+                        <b:formGroup>
+                            <p:outputLabel value="Description"/>
+                            <b:inputText value="#{rejectionReasonBean.entity.description}" required="true" requiredMessage="Please enter rejetion reason" field-size="lg"/>
+                        </b:formGroup>
+                    </b:panelGrid>
+                    <f:facet name="footer">
+                        <b:row>
+                            <b:panelGrid colSpans="6,6" size="lg" styleClass="ui-fluid">
+                                <b:commandButton large-screen="full-width" size="lg" value="Save" look="success" action="#{rejectionReasonBean.save(rejectionReasonBean.entity)}" update="@form" />
+                                <b:commandButton large-screen="full-width" size="lg" value="Cancel" look="danger" action="#{rejectionReasonBean.cancel(rejectionReasonBean.entity)}" immediate="true"  process="@this" update="@(form)"/>
+                            </b:panelGrid>
+                        </b:row>
+                    </f:facet>
+                </b:panel>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

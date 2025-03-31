@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui">
+    <h:body>
+        <ui:composition template="/template/template.xhtml">
+            <ui:define name="maincontent">
+                <b:panel rendered="#{employeeBean.list}" look="default"  collapsible="false">
+                    <f:facet name="heading">
+                        <b:panelGrid colSpans="12" size="lg" styleClass="ui-fluid">
+                            <p:outputLabel value="#{employeeBean.templateTitle}" styleClass="panel-title-css"/>
+                            <p:separator/>
+                        </b:panelGrid>
+                    </f:facet>
+                    <p:dataTable value="#{employeeBean.collections}" var="emp" paginator="true" paginatorPosition="top" paginatorAlwaysVisible="false" reflow="true" rows="10">
+                        <f:facet name="header">
+                            <p:toolbar>
+                                <f:facet name="left">
+                                    <b:commandButton iconSize="lg" size="lg" iconAwesome="fa-plus" look="primary" value="Add" disabled="#{not employeeBean.activeUser.userRole.permission.add}" action="#{employeeBean.addOrUpdate(null)}" update="@form"/>
+                                </f:facet>
+                            </p:toolbar>
+                        </f:facet>
+                        <p:column headerText="Personnal Number">
+                            <h:outputText value="#{emp.empDetails.personnelNum}"/>
+                        </p:column>
+                        <p:column headerText=" Full Names">
+                            <h:outputFormat value="{0} {1}">
+                                <f:param value="#{emp.empDetails.SEmployeeName}"/>
+                                <f:param value="#{emp.empDetails.EEmployeeName}"/>
+                            </h:outputFormat>
+                        </p:column>
+                        <p:column headerText="S-ID">
+                            <h:outputFormat value="{0}">
+                                <f:param value="#{emp.employeeSid}" />
+                            </h:outputFormat>
+                        </p:column>
+                        <p:column headerText="Org Unit">
+                            <h:outputText value="#{emp.empDetails.personnelArea}"/>
+                        </p:column>
+                        <p:column headerText="Manager">
+                            <h:outputFormat value="{0} {1} ({2})">
+                                <f:param value="#{emp.manager.empDetails.SEmployeeName}"/>
+                                <f:param value="#{emp.manager.empDetails.EEmployeeName}"/>
+                                <f:param value="#{emp.manager.employeeSid}"/>
+                            </h:outputFormat>
+                        </p:column>
+                       <p:column headerText="Action" styleClass="xlarge">
+                           <b:commandButton look="primary" value="Edit" size="xs" icon-size="sm" iconBrand="5.2.0" icon-awesome="fa-pencil" disabled="#{not employeeBean.activeUser.userRole.permission.update}" action="#{employeeBean.addOrUpdate(emp)}" update="@form"/>
+                            <p:spacer width="5px"/>
+                            <b:commandButton look="danger" value="Delete" size="xs" icon-size="sm" iconBrand="5.2.0" icon-awesome="fa-trash" disabled="#{not employeeBean.activeUser.userRole.permission.delete}" action="#{employeeBean.delete(emp)}" update="@form"/>
+                        </p:column>
+                    </p:dataTable>
+                </b:panel>
+                <b:panel rendered="#{employeeBean.add}" look="default" collapsible="false">
+                    <f:facet name="heading">
+                        <p:outputLabel value="#{employeeBean.templateTitle}" styleClass="panel-title-css"/>
+                    </f:facet>
+                    <b:panelGrid colSpans="6,6" size="lg" style-class="ui-fluid"> 
+                         <b:formGroup>
+                            <p:outputLabel value="S-ID"/>
+                            <b:inputText value="#{employeeBean.entity.employeeSid}" field-size="lg" required="true" requiredMessage="Please enter the employee's S-ID"/>
+                        </b:formGroup>                       
+                         <b:formGroup>
+                            <p:outputLabel value="First Name"/>
+                            <b:inputText value="#{employeeBean.entity.empDetails.EEmployeeName}" field-size="lg" required="true" requiredMessage="Please enter the employee's first name"/>
+                        </b:formGroup>
+                        <b:formGroup>
+                            <p:outputLabel value="Last Name"/>
+                            <b:inputText value="#{employeeBean.entity.empDetails.SEmployeeName}" field-size="lg" required="true" requiredMessage="Please enter the employee's last name"/>
+                        </b:formGroup>
+                        <b:formGroup>
+                            <p:outputLabel value="Personal Number"/>
+                            <b:inputText value="#{employeeBean.entity.empDetails.personnelNum}" field-size="lg" required="true" requiredMessage="Please enter the employee Personal Number"/>
+                        </b:formGroup>
+                        <b:formGroup>
+                            <p:outputLabel value="Start Date"/>
+                            <p:datePicker  value="#{employeeBean.entity.empDetails.startDate}" pattern="dd MMMM yyyy"/>
+                        </b:formGroup>
+                       <b:formGroup>
+                            <p:outputLabel value="End Date"/>
+                            <p:datePicker  value="#{employeeBean.entity.empDetails.endDate}" pattern="dd MMMM yyyy"/>
+                        </b:formGroup>
+                        <b:formGroup>
+                            <p:outputLabel value="Org Key"/>
+                            <b:inputText value="#{employeeBean.entity.empDetails.orgKey}" field-size="lg"/>
+                        </b:formGroup>
+                        <b:formGroup>
+                            <p:outputLabel value="Cost Center"/>
+                            <b:inputText value="#{employeeBean.entity.empDetails.costCenterNumber}" field-size="lg"/>
+                        </b:formGroup>
+                        <b:formGroup>
+                            <p:outputLabel value="Employee Type"/>
+                            <p:selectOneMenu  value="#{employeeBean.entity.empDetails.employeeType}" required="true" requiredMessage="Employee type is missing, please select the correct employee type" converter="entityConverter">
+                                <f:selectItem itemLabel="Select One" itemValue="" noSelectionOption="true"/>
+                                <f:selectItems value="#{employeeBean.employeeTypes}" var="emp" itemLabel="#{emp.toString()}" itemValue="#{emp}"/>
+                            </p:selectOneMenu>
+                        </b:formGroup>
+                        <b:formGroup>
+                            <p:outputLabel value="Org Unit"/>
+                            <p:selectOneMenu  value="#{employeeBean.entity.empDetails.subDivision}" required="true" requiredMessage="Org Unit is missing, please select the correct org unit" converter="entityConverter">
+                                <f:selectItem itemLabel="Select One" itemValue="" noSelectionOption="true"/>
+                                <f:selectItems value="#{employeeBean.subDivisions}" var="subdiv" itemLabel="#{subdiv.subDivisionName}" itemValue="#{subdiv}"/>
+                            </p:selectOneMenu>
+                        </b:formGroup>
+                        <b:formGroup>
+                            <p:outputLabel value="Manager"/>
+                            <p:selectOneMenu value="#{employeeBean.entity.manager}" required="true" requiredMessage="Reporting line manager is missing, please select the correct reporting line manager" converter="entityConverter">
+                                <f:selectItem itemLabel="Select One" itemValue="" noSelectionOption="true"/>
+                                <f:selectItems value="#{employeeBean.collections}" var="manager" itemLabel="#{manager.empDetails.EEmployeeName} #{manager.empDetails.SEmployeeName} (#{manager.employeeSid})" itemValue="#{manager}"/>
+                            </p:selectOneMenu>
+                        </b:formGroup>
+                       <b:formGroup>
+                            <p:outputLabel value="Code"/>
+                            <b:inputText value="#{employeeBean.entity.empDetails.code}" field-size="lg"/>
+                        </b:formGroup>
+                     </b:panelGrid>
+                   <f:facet name="footer">
+                        <b:row>
+                            <b:panelGrid colSpans="6,6" size="lg" styleClass="ui-fluid">
+                                <b:commandButton large-screen="full-width" size="lg" value="Save" look="success" action="#{employeeBean.save(employeeBean.entity)}" update="@form" />
+                                <b:commandButton large-screen="full-width" size="lg" value="Cancel" look="danger" action="#{employeeBean.cancel(employeeBean.entity)}" immediate="true"  process="@this" update="@(form)"/>
+                            </b:panelGrid>
+                        </b:row>
+                    </f:facet>
+                </b:panel>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

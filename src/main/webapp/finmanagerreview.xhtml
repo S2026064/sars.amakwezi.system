@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui">
+    <h:body>
+        <ui:composition template="/template/template.xhtml">
+            <ui:define name="maincontent">
+                <b:panel rendered="#{finManagerBean.list}" collapsed="false" look="default" collapsible="false">
+                    <f:facet name="heading">
+                        <b:panelGrid colSpans="12" size="lg" styleClass="ui-fluid">
+                            <p:outputLabel value="#{finManagerBean.panelTitleName}" styleClass="panel-title-css"/>
+                            <p:separator/>
+                        </b:panelGrid>
+                    </f:facet>
+                    <p:dataTable value="#{finManagerBean.nominations}" var="nomination" paginator="true" paginatorAlwaysVisible="false" reflow="true" >
+                        <p:column style="width:35px">
+                            <p:rowToggler />
+                        </p:column>
+                        <p:column headerText="Date" styleClass="large" sortBy="#{nomination.createdDate}">
+                            <h:outputText value="#{nomination.createdDate}">
+                                <f:convertDateTime pattern="dd MMMM yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Nomination No" styleClass="xlarge" sortBy="#{nomination.referenceId}">
+                            <h:outputText value="#{nomination.referenceId}"/>
+                        </p:column>
+                        <p:column headerText="Nominator" sortBy="#{nomination.nominator.employee.empDetails.fullnames and nomination.nominator.employee.employeeSid}">
+                            <h:outputFormat value="{0} ({1})">
+                                <f:param value="#{nomination.nominator.employee.empDetails.fullnames}" />
+                                <f:param value="#{nomination.nominator.employee.employeeSid}"/>
+                            </h:outputFormat>
+                        </p:column>
+                        <p:column headerText="Cost Centre Description">
+                            <h:outputFormat value="{0}">                                
+                                <f:param value="#{nomination.costCentreName}"/>
+                            </h:outputFormat>
+                        </p:column>
+                        <p:column headerText="Category" sortBy="#{nomination.category.description}">
+                            <h:outputText value="#{nomination.category.description}"/>
+                        </p:column>
+                        <p:column headerText="Contribution" sortBy="#{nomination.contribution.description and nomination.contribution.amount}">
+                            <h:outputFormat value="{0}">
+                                <f:param value="#{nomination.contribution.description}"/>
+                            </h:outputFormat>
+                            <p:spacer width="5px"/>
+                            <h:outputText value="#{nomination.contribution.amount}">
+                                <f:convertNumber currencySymbol = "R" type = "currency" minFractionDigits="2"/>
+                            </h:outputText>
+                        </p:column>  
+                        <p:column headerText="Type" styleClass="xmedium" sortBy="#{nomination.nominationType.toString()}">
+                            <h:outputText value="#{nomination.nominationType.toString()}"/>
+                        </p:column>
+                        <p:column headerText="Status" styleClass="xmedium" sortBy="#{nomination.nominationStatus.toString()}">
+                            <h:outputText value="#{nomination.nominationStatus.toString()}"/>
+                        </p:column>
+                        <p:rowExpansion>
+                            <b:panelGrid colSpans="5,2,5"  size="lg" styleClass="ui-fluid">
+                                <p:panelGrid columns="2"  styleClass="ui-fluid" >
+                                    <h:outputText value="Motivation:" />
+                                    <h:outputText value="#{nomination.motivation}" />
+                                    <h:outputText value="Rejection Reason:" />
+                                    <h:outputText value="#{nomination.rejectionReason.description}" />
+                                    <h:outputText value="Cost Centre Manager Name:" />
+                                    <h:outputText value="#{nomination.costCenterManagerFullnames}" />
+                                    <h:outputText value="Cost Centre Manager SID:" />
+                                    <h:outputText value="#{nomination.costCenterManagerSid}" />
+
+                                    <h:outputText value="Re-routed Cost Centre Manager Name:" rendered="#{nomination.reroutecostCenterManagerFullnames ne null}"/>
+                                    <h:outputText value="#{nomination.reroutecostCenterManagerFullnames}" rendered="#{nomination.reroutecostCenterManagerFullnames ne null}"/>
+                                    <h:outputText value="Re-routed Cost Centre Manager SID:" rendered="#{nomination.reroutecostCenterManagerSid ne null}"/>
+                                    <h:outputText value="#{nomination.reroutecostCenterManagerSid}" rendered="#{nomination.reroutecostCenterManagerSid ne null}"/>
+
+
+                                    <h:outputText value="Cost Centre Manager Status:" />
+                                    <h:outputText value="#{nomination.costCentreManagerStatus}" />
+                                    <h:outputText value="Finance Manager Name:" />
+                                    <h:outputText value="#{nomination.financeManagerFullnames}" />
+                                    <h:outputText value="Finance Manager SID:" />
+                                    <h:outputText value="#{nomination.financeManagerSid}" />
+
+                                    <h:outputText value="Re-routed Finance Manager Name:" rendered="#{nomination.reroutefinanceManagerFullnames ne null}"/>
+                                    <h:outputText value="#{nomination.reroutefinanceManagerFullnames}" rendered="#{nomination.reroutefinanceManagerFullnames ne null}"/>
+                                    <h:outputText value="Re-routed Finance Manager SID:" rendered="#{nomination.reroutefinanceManagerSid ne null}"/>
+                                    <h:outputText value="#{nomination.reroutefinanceManagerSid}" rendered="#{nomination.reroutefinanceManagerSid ne null}"/>
+
+
+                                    <h:outputText value="Finance Manager Status:" />
+                                    <h:outputText value="#{nomination.financeManagerStatus}" />
+                                </p:panelGrid>
+                                <p:panelGrid columns="1"  styleClass="ui-fluid">
+                                    <f:facet name="header">
+                                        List of Values
+                                    </f:facet>
+                                    <p:dataList value="#{nomination.sarsValues}"  var="valueNomination" type="unordered" rendered="#{nomination.sarsValues.size() ne 0}" >
+                                        <h:outputText value="#{valueNomination.toString()}" style="font-size: 14px;"  />
+                                    </p:dataList>
+                                    <p:dataList value="#{nomination.values}"  var="valueNomination" type="unordered" rendered="#{nomination.values.size() ne 0}" >
+                                        <h:outputText value="#{valueNomination.toString()}" style="font-size: 14px;"  />
+                                    </p:dataList>
+                                </p:panelGrid>
+                                <p:dataTable value="#{nomination.employeeNominations}" var="empNomination">
+                                    <f:facet name="header" >
+                                        Nominees
+                                    </f:facet>
+                                    <p:columnGroup type="header">
+                                        <p:row>
+                                            <p:column headerText="SID" styleClass="small"/>
+                                            <p:column headerText=" Name" />
+                                            <p:column headerText="CC Name" />
+                                            <p:column headerText="CC Number"  />
+                                        </p:row>
+                                    </p:columnGroup>
+                                    <p:column styleClass="small">
+                                        <h:outputText value="#{empNomination.employee.employeeSid}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{empNomination.employee.empDetails.fullnames}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{empNomination.employee.empDetails.costCenterName}"/>
+                                    </p:column>
+                                    <p:column >
+                                        <h:outputText value="#{empNomination.employee.empDetails.costCenterNumber}"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </b:panelGrid>
+                        </p:rowExpansion>
+                        <p:column headerText="Action" styleClass="xlarge">
+                            <b:commandButton rendered="#{nomination.nominationStatus eq 'REJECTED' and nomination.nominationStatus eq 'APPROVED' and nomination.nominator.employee.empDetails.financeManagerSid eq finManagerBean.activeUser.sid}" look="info" size="sm" value="View" icon-size="xs" iconBrand="5.2.0" iconAwesome="fa-file-text" disabled="#{not finManagerBean.activeUser.userRole.permission.read}"  action="#{finManagerBean.viewNominationDetails(nomination)}" update="@form"/>
+                            <b:commandButton rendered="#{nomination.nominationStatus ne 'REJECTED' and (nomination.nominationStatus eq 'SUBMITTED' or nomination.nominationStatus eq 'REROUTED' or nomination.nominationStatus eq 'FINANCE_REROUTED') and (finManagerBean.activeUser.userRole.nominationSettings.finReviewNomination or finManagerBean.activeUser.userRole.nominationSettings.escalatedNominations) and nomination.nominator.employee.employeeSid ne finManagerBean.activeUser.sid}"  look="success" size="sm" value="Review" icon-size="xs" iconBrand="5.2.0" iconAwesome="fa-file-text" disabled="#{not finManagerBean.activeUser.userRole.permission.write}" action="#{finManagerBean.reviewNomination(nomination)}"  update="@form"/>
+                        </p:column>
+
+                        <f:facet name="footer">
+                            <b:row>
+                                <b:panelGrid colSpans="4,5,3" size="lg" styleClass="ui-fluid">  
+                                    <b:panelGrid colSpans="5,5,2"></b:panelGrid>
+                                    <b:panelGrid colSpans="5,5,2"></b:panelGrid>
+                                    <b:panelGrid class="float-right" colSpans="6,6">
+                                        <b:commandButton rendered="#{finManagerBean.prevPage}" class="float-left" large-screen="full-width" size="xs" icon-size="xs"  value="Previous[#{finManagerBean.pageNumber -1}]" look="success" action="#{finManagerBean.prevNominations()}"    update="@form"/>
+                                        <b:commandButton rendered="#{finManagerBean.nextPage}" class="float-right" large-screen="full-width" size="xs" icon-size="xs"  value="Next[#{finManagerBean.pageNumber}]" look="primary" action="#{finManagerBean.nextNominations()}" update="@form"/>
+                                    </b:panelGrid>
+                                </b:panelGrid>
+                            </b:row>
+                        </f:facet>
+                    </p:dataTable>  
+                </b:panel>
+                <b:panel collapsible="false" collapsed="false" rendered="#{finManagerBean.viewReport}">
+                    <f:facet name="heading">
+                        <p:outputLabel value="#{finManagerBean.panelTitleName}" styleClass="panel-title-css"/>
+                    </f:facet>
+                    <b:panelGrid colSpans="4,4,4"  size="lg" styleClass="ui-fluid">
+                        <b:formGroup>
+                            <p:outputLabel value="Cost Centre Number"/>
+                            <b:inputText readonly="true" value="#{finManagerBean.entity.costCentreNumber}"  fieldSize="lg"/>
+                        </b:formGroup>
+                        <b:formGroup>
+                            <p:outputLabel value="Cost Centre Manager"/>
+                            <b:inputText readonly="true" value="#{finManagerBean.entity.costCenterManagerFullnames} (#{finManagerBean.entity.costCenterManagerSid})"  fieldSize="lg"/>
+                        </b:formGroup>
+                        <b:formGroup>
+                            <p:outputLabel value="Finance Manager"/>
+                            <b:inputText readonly="true" value="#{finManagerBean.entity.financeManagerFullnames} (#{finManagerBean.entity.financeManagerSid})"  fieldSize="lg"/>
+                        </b:formGroup>
+                    </b:panelGrid>
+                    <p:fieldset legend="Nominees Details">
+                        <b:panelGrid colSpans="12" size="lg" styleClass="ui-fluid">                            
+                            <p:dataTable id="nomineesCandidates"  value="#{finManagerBean.entity.employeeNominations}" var="empNominee" paginator="true" paginatorAlwaysVisible="false" rows="10">
+                                <p:column headerText="Full Names">
+                                    <h:outputFormat value="{0}">
+                                        <f:param value="#{empNominee.employee.empDetails.fullnames}"/>
+                                    </h:outputFormat>
+                                </p:column>
+                                <p:column headerText="S-ID " >
+                                    <h:outputFormat value="{0}">
+                                        <f:param value="#{empNominee.employee.employeeSid}"/>
+                                    </h:outputFormat>
+                                </p:column>
+                                <p:column headerText="Personnel Area">
+                                    <h:outputFormat value="{0}">
+                                        <f:param value="#{empNominee.employee.divisionName} " />
+                                    </h:outputFormat>
+                                </p:column>
+                                <p:column headerText="Sub Area">
+                                    <h:outputFormat value="{0}">
+                                        <f:param value="#{empNominee.employee.subDivision}" />
+                                    </h:outputFormat>
+                                </p:column>
+                                <p:column headerText="Cost Centre">
+                                    <h:outputFormat value="{0}">
+                                        <f:param value="#{empNominee.employee.empDetails.costCenterNumber}"/>
+                                    </h:outputFormat>
+                                </p:column>
+                            </p:dataTable>
+                        </b:panelGrid>
+                    </p:fieldset>
+                    <p:spacer width="5px"/>
+                    <b:panelGrid colSpans="6,6" size="lg" styleClass="ui-fluid">                            
+                        <b:formGroup>
+                            <p:outputLabel value="Nomination Category"/>
+                            <b:inputText readonly="true" value="#{finManagerBean.entity.category.description}" fieldSize="lg"/>
+                        </b:formGroup>
+                        <b:formGroup>
+                            <p:outputLabel value="Nomination Contribution"/>
+                            <b:inputText readonly="true" value="#{finManagerBean.entity.contribution.description} (R #{finManagerBean.entity.contribution.amount}0)" fieldSize="lg"/>
+                        </b:formGroup>                            
+                        <b:formGroup>
+                            <p:outputLabel value="Motivation"/>
+                            <b:inputTextarea readonly="true" value="#{finManagerBean.entity.motivation}" style="font-size: 18px;" rows="4"/>
+                        </b:formGroup> 
+                        <b:formGroup>
+                            <p:outputLabel value="Rejection Reason"/>
+                            <b:inputText readonly="true" value="#{finManagerBean.entity.rejectionReason.description}" fieldSize="lg" />
+                        </b:formGroup>
+                    </b:panelGrid>
+                    <b:panelGrid colSpans="12" size="lg" styleClass="ui-fluid">
+                        <b:formGroup rendered="#{finManagerBean.entity.sarsValues.size() ne 0}">
+                            <p:outputLabel value="Nomination Values" />
+                            <b:inputText readonly="true" value="#{finManagerBean.entity.sarsValues}"  fieldSize="lg"/>
+                        </b:formGroup>
+                        <b:formGroup rendered="#{finManagerBean.entity.values.size() ne 0}">
+                            <p:outputLabel value="Nomination Values" />
+                            <b:inputText readonly="true" value="#{finManagerBean.entity.values}"  fieldSize="lg"/>
+                        </b:formGroup>
+                    </b:panelGrid>
+                    <f:facet name="footer">
+                        <b:row>
+                            <b:panelGrid colSpans="12" size="lg" styleClass="ui-fluid">                                
+                                <b:commandButton large-screen="full-width" size="lg" value="Back" look="danger" action="#{finManagerBean.back()}"  immediate="true" update="@form"/>
+                            </b:panelGrid>
+                        </b:row>
+                    </f:facet>
+                </b:panel>
+                <b:panel collapsible="false" collapsed="false" rendered="#{finManagerBean.reviewReport}">
+                    <f:facet name="heading">
+                        <p:outputLabel value="#{finManagerBean.panelTitleName}" styleClass="panel-title-css"/>
+                    </f:facet>
+                    <b:panelGrid colSpans="4,4,4"  size="lg" styleClass="ui-fluid">
+                        <b:formGroup>
+                            <p:outputLabel value="Nominator Cost Centre Number"/>
+                            <b:inputText readonly="true" value="#{finManagerBean.entity.nominator.employee.empDetails.costCenterNumber}"  fieldSize="lg"/>
+                        </b:formGroup>
+                        <b:formGroup>
+                            <p:outputLabel value="Cost Centre Manager"/>
+                            <b:inputText readonly="true" value="#{finManagerBean.entity.nominator.employee.empDetails.costCentreManagerFullnames} (#{finManagerBean.entity.nominator.employee.empDetails.costCentreManagerSid})"  fieldSize="lg"/>
+                        </b:formGroup>
+                        <b:formGroup>
+                            <p:outputLabel value="Finance Manager"/>
+                            <b:inputText readonly="true" value="#{finManagerBean.entity.nominator.employee.empDetails.financeManagerFullnames} (#{finManagerBean.entity.nominator.employee.empDetails.financeManagerSid})"  fieldSize="lg"/>
+                        </b:formGroup>
+                    </b:panelGrid>
+                    <p:fieldset legend="Nominees Details">
+                        <b:panelGrid colSpans="12" size="lg" styleClass="ui-fluid">                            
+                            <p:dataTable id="nominionCandidates"  value="#{finManagerBean.entity.employeeNominations}" var="empNominee" paginator="true" paginatorAlwaysVisible="false" rows="10">
+                                <p:column headerText="Full Names">
+                                    <h:outputFormat value="{0}">
+                                        <f:param value="#{empNominee.employee.empDetails.fullnames}"/>
+                                    </h:outputFormat>
+                                </p:column>
+                                <p:column headerText="S-ID " >
+                                    <h:outputFormat value="{0}">
+                                        <f:param value="#{empNominee.employee.employeeSid}"/>
+                                    </h:outputFormat>
+                                </p:column>
+                                <p:column headerText="Personnel Area">
+                                    <h:outputFormat value="{0}">
+                                        <f:param value="#{empNominee.employee.divisionName}" />
+                                    </h:outputFormat>
+                                </p:column>
+                                <p:column headerText="Sub Area">
+                                    <h:outputFormat value="{0}">
+                                        <f:param value="#{empNominee.employee.subDivision} " />
+                                    </h:outputFormat>
+                                </p:column>
+                                <p:column headerText="Cost Centre">
+                                    <h:outputFormat value="{0}">
+                                        <f:param value="#{empNominee.employee.empDetails.costCenterNumber}"/>
+                                    </h:outputFormat>
+                                </p:column>
+                            </p:dataTable>
+                        </b:panelGrid>
+                    </p:fieldset>
+                    <p:spacer width="5px"/>
+                    <b:panelGrid colSpans="6,6" size="lg" styleClass="ui-fluid">                            
+                        <b:formGroup>
+                            <p:outputLabel value="Nomination Category"/>
+                            <b:inputText readonly="true" value="#{finManagerBean.entity.category.description}" fieldSize="lg"/>
+                        </b:formGroup>
+                        <b:formGroup>
+                            <p:outputLabel value="Nomination Contribution"/>
+                            <b:inputText readonly="true" value="#{finManagerBean.entity.contribution.description} (R #{finManagerBean.entity.contribution.amount}0)" fieldSize="lg"/>
+                        </b:formGroup>                            
+                        <b:formGroup>
+                            <p:outputLabel value="Motivation"/>
+                            <b:inputTextarea readonly="true" value="#{finManagerBean.entity.motivation}" style="font-size: 18px;" rows="4"/>
+                        </b:formGroup> 
+                        <b:formGroup>
+                            <p:outputLabel value="Rejection Reason"/>
+                            <p:selectOneMenu   converter="entityConverter" value="#{finManagerBean.entity.rejectionReason}">
+                                <p:ajax event="change"  update="approveBtn"/>
+                                <f:selectItem itemLabel="Select Rejection Reason" noSelectionOption="true"/>
+                                <f:selectItems value="#{finManagerBean.rejectionReasons}"  var="reason" itemLabel="#{reason.description}" itemValue="#{reason}"/>
+                            </p:selectOneMenu>
+                        </b:formGroup>
+                    </b:panelGrid>
+                    <b:panelGrid colSpans="12" size="lg" styleClass="ui-fluid">
+                        <b:formGroup rendered="#{finManagerBean.entity.sarsValues.size() ne 0}">
+                            <p:outputLabel value="Nomination Values" />
+                            <b:inputText readonly="true" value="#{finManagerBean.entity.sarsValues}"  fieldSize="lg"/>
+                        </b:formGroup>
+                        <b:formGroup rendered="#{finManagerBean.entity.values.size() ne 0}">
+                            <p:outputLabel value="Nomination Values" />
+                            <b:inputText readonly="true" value="#{finManagerBean.entity.values}"  fieldSize="lg"/>
+                        </b:formGroup>
+                    </b:panelGrid>
+                    <f:facet name="footer">
+                        <b:row>
+                            <b:modal id="amodal" title="Nomination Approval" styleClass="modalPseudoClass" closable="false" close-on-escape="false" backdrop="false">
+                                <p>Are you sure you want to approve this nomination?</p>
+                                <f:facet name="footer">
+                                    <b:row>
+                                        <b:panelGrid colSpans="6,6" size="lg" styleClass="ui-fluid">
+                                            <b:commandButton large-screen="full-width" size="sm" value="Yes" look="success" action="#{finManagerBean.approve(finManagerBean.entity)}" immediate="true" onclick="$('.modalPseudoClass').modal('hide')"/> 
+                                            <b:button large-screen="full-width" size="sm" look="danger" value="No" dismiss="modal"/>
+                                        </b:panelGrid>
+                                    </b:row>
+                                </f:facet>
+                            </b:modal>
+                            <b:panelGrid colSpans="4,4,4" size="lg" styleClass="ui-fluid">
+                                <b:button disabled="#{finManagerBean.entity.rejectionReason != null}" id="approveBtn" large-screen="full-width" size="lg" value="Approve" look="success" onclick="$('.modalPseudoClass').modal('show')"/> 
+                                <b:commandButton large-screen="full-width" size="lg" value="Reject" look="info" action="#{finManagerBean.reject(finManagerBean.entity)}"  update="@form"/>  
+                                <b:commandButton large-screen="full-width" size="lg" value="Cancel" look="danger" action="#{finManagerBean.back()}"  immediate="true"  process="@this" update="@(form)"/>
+                            </b:panelGrid>
+                        </b:row>
+                    </f:facet>
+                </b:panel>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui">
+    <h:body>
+        <ui:composition template="/template/logintemplate.xhtml">
+            <ui:define name="maincontent">  
+                <b:panelGrid offset-sm="4" offset-md="4" offset-lg="4" span="4" columns="1" colSpans="12" styleClass="ui-fluid">
+                    <p:fieldset legend="SIGN IN">
+                        <h:outputText style="color: red;" value="Login details supplied failed!"  rendered="${!empty param['error']}"/>
+                        <b:row>
+                            <b:inputText value="#{loginBean.sidParam}" name="username" maxlength="8" placeholder="User name" required="true" fieldSize="lg" large-screen="full-width" requiredMessage="Please enter the employee SID">
+                                <f:facet name="prepend">
+                                    <b:icon name="user" />
+                                </f:facet>
+                            </b:inputText>
+                        </b:row>
+                        <b:row>
+                            <b:commandButton size="lg" action="#{loginBean.signIn()}"  value="Login" large-screen="full-width"  look="primary" iconAwesome="fa-sign-in" ajax="false"/>
+                        </b:row>
+                    </p:fieldset>
+                </b:panelGrid>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

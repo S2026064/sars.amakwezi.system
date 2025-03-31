@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui">
+    <h:body>
+        <ui:composition template="/template/template.xhtml">
+            <ui:define name="maincontent">
+                <b:panel rendered="#{reRouteNominationBean.list}" collapsed="false" look="default" collapsible="false">
+                    <f:facet name="heading">
+                        <b:panelGrid colSpans="12" size="lg" styleClass="ui-fluid">
+                            <p:outputLabel value="#{reRouteNominationBean.panelTitleName}" styleClass="panel-title-css"/>
+                            <p:separator/>
+                        </b:panelGrid>
+                    </f:facet>
+                    <p:dataTable value="#{reRouteNominationBean.nominations}" var="nomination" paginator="true" paginatorAlwaysVisible="false" reflow="true" rows="100">
+                        <f:facet name="header">
+                            <b:row>
+                                <b:panelGrid colSpans="4,5,3" size="lg" styleClass="ui-fluid">  
+                                    <b:panelGrid colSpans="5,5,2"></b:panelGrid>
+                                    <b:panelGrid colSpans="5,5,2"></b:panelGrid>
+                                    <b:panelGrid class="float-right" colSpans="6,6">
+                                        <b:commandButton rendered="#{reRouteNominationBean.prevPage}" class="float-left" large-screen="full-width" size="xs" icon-size="xs"  value="Previous[#{reRouteNominationBean.pageNumber -1}]" look="success" action="#{reRouteNominationBean.prevNominations()}"    update="@form"/>
+                                        <b:commandButton rendered="#{reRouteNominationBean.nextPage}" class="float-right" large-screen="full-width" size="xs" icon-size="xs"  value="Next[#{reRouteNominationBean.pageNumber}]" look="primary" action="#{reRouteNominationBean.nextNominations()}" update="@form"/>
+                                    </b:panelGrid>
+                                </b:panelGrid>
+                            </b:row>
+                        </f:facet>
+                        <p:column style="width:35px">
+                            <p:rowToggler />
+                        </p:column>
+                        <p:column headerText="Date" styleClass="large" sortBy="#{nomination.createdDate}">
+                            <h:outputText value="#{nomination.createdDate}">
+                                <f:convertDateTime pattern="dd MMMM yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Nomination No" styleClass="xlarge" sortBy="#{nomination.referenceId}">
+                            <h:outputText value="#{nomination.referenceId}"/>
+                        </p:column>
+                        <p:column headerText="Nominator" sortBy="#{nomination.nominator.employee.empDetails.fullnames and nomination.nominator.employee.employeeSid}">
+                            <h:outputFormat value="{0} ({1})">
+                                <f:param value="#{nomination.nominator.employee.empDetails.fullnames}" />
+                                <f:param value="#{nomination.nominator.employee.employeeSid}"/>
+                            </h:outputFormat>
+                        </p:column>
+                        <p:column headerText="CC Description">
+                            <h:outputFormat value="{0}">                                
+                                <f:param value="#{nomination.costCentreName}"/>
+                            </h:outputFormat>
+                        </p:column>
+                        <p:column headerText="Category" sortBy="#{nomination.category.description}">
+                            <h:outputText value="#{nomination.category.description}"/>
+                        </p:column>
+                        <p:column headerText="Contribution" sortBy="#{nomination.contribution.description and nomination.contribution.amount}">
+                            <h:outputFormat value="{0}">
+                                <f:param value="#{nomination.contribution.description}"/>
+                            </h:outputFormat>
+                            <p:spacer width="5px"/>
+                            <h:outputText value="#{nomination.contribution.amount}">
+                                <f:convertNumber currencySymbol = "R" type = "currency" minFractionDigits="2"/>
+                            </h:outputText>
+                        </p:column>  
+                        <p:column headerText="Type" styleClass="xmedium" sortBy="#{nomination.nominationType.toString()}">
+                            <h:outputText value="#{nomination.nominationType.toString()}"/>
+                        </p:column>
+                        <p:column headerText="Status" styleClass="xmedium" sortBy="#{nomination.nominationStatus.toString()}">
+                            <h:outputText value="#{nomination.nominationStatus.toString()}"/>
+                        </p:column>
+                        <p:rowExpansion>
+                            <b:panelGrid colSpans="5,2,5"  size="lg" styleClass="ui-fluid">
+                                <p:panelGrid columns="2"  styleClass="ui-fluid" >
+                                    <h:outputText value="Motivation:" />
+                                    <h:outputText value="#{nomination.motivation}" />
+                                    <h:outputText value="Rejection Reason:" />
+                                    <h:outputText value="#{nomination.rejectionReason.description}" />
+                                    <h:outputText value="Cost Centre Manager Name:" />
+                                    <h:outputText value="#{nomination.costCenterManagerFullnames}" />
+                                    <h:outputText value="Cost Centre Manager SID:" />
+                                    <h:outputText value="#{nomination.costCenterManagerSid}" />
+
+                                    <h:outputText value="Re-routed Cost Centre Manager Name:" rendered="#{nomination.reroutecostCenterManagerFullnames ne null}"/>
+                                    <h:outputText value="#{nomination.reroutecostCenterManagerFullnames}" rendered="#{nomination.reroutecostCenterManagerFullnames ne null}"/>
+                                    <h:outputText value="Re-routed Cost Centre Manager SID:" rendered="#{nomination.reroutecostCenterManagerSid ne null}"/>
+                                    <h:outputText value="#{nomination.reroutecostCenterManagerSid}" rendered="#{nomination.reroutecostCenterManagerSid ne null}"/>
+
+                                    <h:outputText value="Cost Centre Manager Status:" />
+                                    <h:outputText value="#{nomination.costCentreManagerStatus}" />
+
+                                    <h:outputText value="Finance Manager Name:" />
+                                    <h:outputText value="#{nomination.financeManagerFullnames}" />
+                                    <h:outputText value="Finance Manager SID:" />
+                                    <h:outputText value="#{nomination.financeManagerSid}" />
+
+                                    <h:outputText value="Re-routed Finance Manager Name:" rendered="#{nomination.reroutefinanceManagerFullnames ne null}"/>
+                                    <h:outputText value="#{nomination.reroutefinanceManagerFullnames}" rendered="#{nomination.reroutefinanceManagerFullnames ne null}"/>
+                                    <h:outputText value="Re-routed Finance Manager SID:" rendered="#{nomination.reroutefinanceManagerSid ne null}"/>
+                                    <h:outputText value="#{nomination.reroutefinanceManagerSid}" rendered="#{nomination.reroutefinanceManagerSid ne null}"/>
+
+                                    <h:outputText value="Finance Manager Status:" />
+                                    <h:outputText value="#{nomination.financeManagerStatus}"/>
+                                </p:panelGrid>
+                                <p:panelGrid columns="1"  styleClass="ui-fluid">
+                                    <f:facet name="header">
+                                        List of Values
+                                    </f:facet>
+                                    <p:dataList value="#{nomination.sarsValues}"  var="valueNomination" type="unordered" rendered="#{nomination.sarsValues.size() ne 0}" >
+                                        <h:outputText value="#{valueNomination.toString()}" style="font-size: 14px;"  />
+                                    </p:dataList>
+                                    <p:dataList value="#{nomination.values}"  var="valueNomination" type="unordered" rendered="#{nomination.values.size() ne 0}" >
+                                        <h:outputText value="#{valueNomination.toString()}" style="font-size: 14px;"  />
+                                    </p:dataList>
+                                </p:panelGrid>
+                                <p:dataTable value="#{nomination.employeeNominations}" var="empNomination">
+                                    <f:facet name="header" >
+                                        Nominees
+                                    </f:facet>
+                                    <p:columnGroup type="header">
+                                        <p:row>
+                                            <p:column headerText="SID" styleClass="small"/>
+                                            <p:column headerText=" Name" />
+                                            <p:column headerText="CC Name" />
+                                            <p:column headerText="CC Number"  />
+                                        </p:row>
+                                    </p:columnGroup>
+                                    <p:column styleClass="small">
+                                        <h:outputText value="#{empNomination.employee.employeeSid}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{empNomination.employee.empDetails.fullnames}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{empNomination.employee.empDetails.costCenterName}"/>
+                                    </p:column>
+                                    <p:column >
+                                        <h:outputText value="#{empNomination.employee.empDetails.costCenterNumber}"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </b:panelGrid>
+                        </p:rowExpansion>
+                        <p:column headerText="Action" styleClass="xlarge">
+                            <b:commandButton look="primary" size="xs" value="Re-route" icon-size="xs" iconBrand="5.2.0" iconAwesome="fa-send" rendered="#{nomination.nominationStatus ne 'APPROVED'}" disabled="#{not escalatedNominationBean.activeUser.userRole.permission.update}" action="#{reRouteNominationBean.reRouteNomination(nomination)}" update="@form"/>
+                            <p:spacer width="5px"/>
+                            <b:commandButton look="danger" size="xs" value="Delete" icon-size="xs" iconBrand="5.2.0" iconAwesome="fa-trash" rendered="#{nomination.nominationStatus ne 'APPROVED'}" disabled="#{not escalatedNominationBean.activeUser.userRole.permission.delete}" action="#{reRouteNominationBean.deleteSubmittedNomination(nomination)}" update="@form"/>
+                        </p:column>
+
+                        <f:facet name="footer">
+                            <b:row>
+                                <b:panelGrid colSpans="4,5,3" size="lg" styleClass="ui-fluid">  
+                                    <b:panelGrid colSpans="5,5,2"></b:panelGrid>
+                                    <b:panelGrid colSpans="5,5,2"></b:panelGrid>
+                                    <b:panelGrid class="float-right" colSpans="6,6">
+                                        <b:commandButton rendered="#{reRouteNominationBean.prevPage}" class="float-left" large-screen="full-width" size="xs" icon-size="xs"  value="Previous[#{reRouteNominationBean.pageNumber -1}]" look="success" action="#{reRouteNominationBean.prevNominations()}"    update="@form"/>
+                                        <b:commandButton rendered="#{reRouteNominationBean.nextPage}" class="float-right" large-screen="full-width" size="xs" icon-size="xs"  value="Next[#{reRouteNominationBean.pageNumber}]" look="primary" action="#{reRouteNominationBean.nextNominations()}" update="@form"/>
+                                    </b:panelGrid>
+                                </b:panelGrid>
+                            </b:row>
+                        </f:facet>
+                    </p:dataTable>
+                </b:panel>
+                <b:panel rendered="#{reRouteNominationBean.reRoutePanel}" collapsed="false" look="default" collapsible="false">
+                    <f:facet name="heading">
+                        <p:outputLabel value="Re-Route Nomination" styleClass="panel-title-css"/>
+                    </f:facet>
+                    <b:panelGrid colSpans="6,6"  size="lg" styleClass="ui-fluid">
+                        <b:formGroup>
+                            <p:outputLabel value="Cost Centre Manager"/>
+                            <b:inputText readonly="true" value="#{reRouteNominationBean.entity.nominator.employee.empDetails.costCentreManagerFullnames} (#{reRouteNominationBean.entity.nominator.employee.empDetails.costCentreManagerSid})"  fieldSize="lg"/>
+                        </b:formGroup>
+                        <b:formGroup>
+                            <p:outputLabel value="Finance Manager"/>
+                            <b:inputText readonly="true" value="#{reRouteNominationBean.entity.nominator.employee.empDetails.financeManagerFullnames} (#{reRouteNominationBean.entity.nominator.employee.empDetails.financeManagerSid})"  fieldSize="lg"/>
+                        </b:formGroup>
+                    </b:panelGrid>
+                    <b:panelGrid colSpans="12" size="lg" styleClass="ui-fluid">
+                        <b:formGroup>
+                            <p:outputLabel value="Manager Details"/>
+                            <p:selectOneMenu value="#{reRouteNominationBean.selectedManager}" required="true" converter="entityConverter"  rendered="true" requiredMessage="Please select the manager" filter="true" filterMatchMode="contains" filterPlaceholder="Filter by S-ID">
+                                <f:selectItem itemLabel="Select One"  noSelectionOption="true"/>
+                                <f:selectItems value="#{reRouteNominationBean.managers}" var="manager" itemLabel="#{manager.employee.empDetails.fullnames} (#{manager.employee.employeeSid})" itemValue="#{manager}"/>
+                            </p:selectOneMenu>
+                        </b:formGroup>
+                    </b:panelGrid>
+                    <f:facet name="footer">
+                        <b:row>
+                            <b:panelGrid colSpans="6,6" size="lg" styleClass="ui-fluid">  
+                                <b:commandButton large-screen="full-width" size="lg" value="Save" look="primary" action="#{reRouteNominationBean.route(reRouteNominationBean.entity)}" update="@form"/>
+                                <b:commandButton large-screen="full-width" size="lg" value="Cancel" look="danger" action="#{reRouteNominationBean.cancel()}"   immediate="true"  process="@this" update="@(form)"/>
+                            </b:panelGrid>
+                        </b:row>
+                    </f:facet>
+                </b:panel>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
