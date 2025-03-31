@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:body>
+        <ui:composition>
+            <b:navBar   fluid="true"   brandHref="#">
+                <b:navbarLinks >
+                    <b:navCommandLink value="Bookings" action="#{menuBean.route('/secured/booking')}" immediate="true"></b:navCommandLink>
+                    <b:navCommandLink value="Borrowers" action="#{menuBean.route('/secured/borrower')}" immediate="true"></b:navCommandLink>
+                    <b:navCommandLink value="Items" action="#{menuBean.route('/secured/item')}" immediate="true"></b:navCommandLink>
+                    <b:navCommandLink value="Reports" action="#{menuBean.route('/secured/report')}" immediate="true"></b:navCommandLink>
+                    <b:navCommandLink value="Admin" action="#{menuBean.route('/secured/admin')}" immediate="true"></b:navCommandLink>
+                </b:navbarLinks>
+            </b:navBar>
+        </ui:composition>
+    </h:body>
+</html>
+
+

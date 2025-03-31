@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:body>
+        <ui:composition>
+            <b:navBar brandStyle="font-size: smaller"  brand="Administration" fluid="true" styleClass="menucss"   brandHref="#" rendered="#{menuBean.activeUser.router.administrator}">
+                <b:navbarLinks style="font-size: smaller">
+                    <b:navCommandLink value="Home" iconAwesome="fa-home" action="#{menuBean.route('/home')}" immediate="true"></b:navCommandLink>
+                    <b:navCommandLink value="Roles" action="#{menuBean.route('/userroles')}" rendered="#{menuBean.activeUser.userRole.administrationSettings.userRole}" immediate="true"></b:navCommandLink>
+                    <b:navCommandLink value="Users" action="#{menuBean.route('/users')}" rendered="#{menuBean.activeUser.userRole.administrationSettings.users}" immediate="true"></b:navCommandLink>
+                    <b:navCommandLink value="Categories" action="#{menuBean.route('/categories')}" rendered="#{menuBean.activeUser.userRole.administrationSettings.categories}" immediate="true"></b:navCommandLink>
+                    <b:navCommandLink value="Contributions" action="#{menuBean.route('/contributions')}" rendered="#{menuBean.activeUser.userRole.administrationSettings.contributions}" immediate="true"></b:navCommandLink>
+                    <b:navCommandLink value="Rejection Reasons" action="#{menuBean.route('/rejectionReasons')}" rendered="#{menuBean.activeUser.userRole.administrationSettings.rejectionReasons}" immediate="true"></b:navCommandLink>
+                </b:navbarLinks>
+            </b:navBar>             
+            <b:navBar brandStyle="font-size: smaller" styleClass="menucss"   brand="Nomination Management" fluid="true"   brandHref="#" rendered="#{menuBean.activeUser.router.nomination}">
+                <b:navbarLinks style="font-size: smaller">
+                    <b:navCommandLink value="Home" iconAwesome="fa-home" action="#{menuBean.route('/home')}" immediate="true"></b:navCommandLink>
+                    <b:navCommandLink value="Nominations" action="#{menuBean.route('/revisedNomination')}" rendered="#{menuBean.activeUser.userRole.nominationSettings.nominate}" immediate="true"></b:navCommandLink>
+                    <b:navCommandLink value="Cost Centre Review Nominations" action="#{menuBean.route('/ccmanagerreview')}" rendered="#{menuBean.activeUser.userRole.nominationSettings.ccReviewNomination}" immediate="true"></b:navCommandLink>
+                    <b:navCommandLink value="Finance Review Nominations" action="#{menuBean.route('/finmanagerreview')}" rendered="#{menuBean.activeUser.userRole.nominationSettings.finReviewNomination}" immediate="true"></b:navCommandLink>
+                    <b:navCommandLink value="Escalated Nomination" action="#{menuBean.route('/escalatednomination')}" rendered="#{menuBean.activeUser.userRole.nominationSettings.escalatedNominations}" immediate="true"></b:navCommandLink>
+                    <b:navCommandLink value="ReRoute Nomination" action="#{menuBean.route('/rerouteNomination')}" rendered="#{menuBean.activeUser.userRole.nominationSettings.reRouteNominations}" immediate="true"></b:navCommandLink>
+                </b:navbarLinks>
+            </b:navBar>
+            <b:navBar brandStyle="font-size: smaller" brand="Reports" fluid="true" styleClass="menucss"    brandHref="#" rendered="#{menuBean.activeUser.router.reports}">
+                <b:navbarLinks style="font-size: smaller">
+                    <b:navCommandLink value="Home" iconAwesome="fa-home" action="#{menuBean.route('/home')}" immediate="true"></b:navCommandLink>
+                    <b:navCommandLink value="Draw Report" action="#{menuBean.route('/report')}" rendered="#{menuBean.activeUser.userRole.reportSettings.report}" immediate="true"></b:navCommandLink>
+                </b:navbarLinks>
+            </b:navBar>    
+        </ui:composition>
+    </h:body>
+</html>
+
+

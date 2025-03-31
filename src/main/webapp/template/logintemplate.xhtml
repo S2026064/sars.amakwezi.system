@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <h:outputStylesheet name="amakhwezi.css" library="css"/>
+        <h:outputStylesheet name="bootstrap.min.css" library="css"/>
+    </h:head>
+    <h:body>
+        <h:form prependId="false" >
+            <b:growl id="growl" showDetail="true" showSummary="false" allowDismiss="true" placementAlign="center"/>
+            <b:container fluid="true" >
+                <b:row>
+                    <b:column small-screen="12">
+                        <p:spacer height="2px"/>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column small-screen="12">
+                        <b:panel collapsible="false">
+                            <ui:insert name="header">
+                                <ui:include src="/template/header.xhtml"/>
+                            </ui:insert>
+                        </b:panel>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column small-screen="12">
+                        <b:panel collapsible="false" contentStyle="height:550px">
+                            <ui:insert name="maincontent">
+                                <ui:include src="/template/content.xhtml"/>
+                            </ui:insert>
+                        </b:panel>
+                    </b:column>
+                </b:row>
+            </b:container>
+        </h:form>
+    </h:body>
+</html>
