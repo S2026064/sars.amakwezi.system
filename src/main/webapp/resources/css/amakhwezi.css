@@ -1,0 +1,860 @@
+
+@import url(//fonts.googleapis.com/css?family=Open+Sans);
+
+body{
+
+    font-family: 'Open Sans', sans-serif;
+
+    font-size: 0.8125em;
+
+    margin:0 auto;
+
+    background-color:#fff;
+
+}
+
+.headerfontsize{
+
+    font-size: 0.8125em;
+
+}
+
+.ui-datatable{
+
+    border-color:#D4AF37;
+
+    text-transform: capitalize !important;
+
+    font-weight: 400 !important;
+
+    font-size:15px !important;
+
+    color:#d9534f;
+
+}
+.ui-selectonemenu .ui-selectonemenu-trigger{
+    background: #F5F5F5 !important;
+}
+
+.ui-datatable .ui-datatable-header {
+    text-align: left !important;
+    background: #F5F5F5 !important;
+    color:#D4AF37 !important;
+    border-color:#DCDCDC !important;
+}
+.ui-datatable thead th{
+    text-align: left !important;
+    text-transform: uppercase !important;
+    /*font-size: 0.695em !important;
+    font-weight: bold !important;*/
+    color:#23527c !important;
+    background: #F5F5F5 !important;
+    border-color:#DCDCDC !important;
+}
+.ui-datepicker td{
+
+    height:68px !important;
+
+    font-size:1.1em !important;
+
+}
+
+.ui-datepicker .ui-datepicker-calendar th{
+
+    font-size:1.1em !important;
+
+}
+
+.ui-datepicker-table{
+
+    font-size:1.1em !important;
+
+}
+
+.ui-datepicker-header{
+
+    font-size:1.1em !important;
+
+}
+
+.ui-datepicker-week-end{
+
+    font-size:1.1em !important;
+
+}
+
+.ui-datepicker-month{
+
+    font-size:1.1em !important;
+
+}
+
+.ui-datepicker-title{
+
+    font-size:1.1em !important;
+
+    color: #d9534f !important;
+
+    text-transform: uppercase !important;
+
+}
+.checkboxcss label{
+    padding: 16px;
+    display: contents;
+    font-size:16px !important;
+
+}
+
+
+
+.ui-inputfield{
+
+    height:45px !important;
+
+    font-size:18px !important;
+
+    font-weight: 400 !important;
+
+}
+
+.ui-selectonemenu{
+
+    height:45px !important;
+
+}
+
+body .ui-selectonemenu-panel .ui-selectonemenu-items .ui-selectonemenu-item {
+    font-size:1.4em !important; 
+}
+
+.ui-menuitem{
+
+    font-size:1.1em !important;
+
+    font-weight: 400 !important;
+
+}
+
+.ui-panelgrid-header{
+
+    font-size: 1.1em !important;
+
+    text-transform: uppercase !important;
+
+    font-weight: bold !important;
+
+    color:#419641 !important;
+
+}
+
+.ui-panel-title{
+
+    /** text-align:center !important;**/
+
+    font-size:1.1em !important;
+
+    text-transform: uppercase !important;
+
+    font-weight: bold !important;
+
+    color:#428bca !important;
+
+}
+
+/*******************Toolbar css************************************************/
+
+.ui-toolbar{
+
+    border: none !important;
+
+    background:#F5F5F5 !important;
+
+    color:#D4AF37 !important;
+
+}
+
+.ui-toolbar.headerToolBarCss{
+
+    border: none !important;
+
+    background: #F5F5F5 !important;
+
+    color:#D4AF37 !important;
+
+}
+
+/***************************Button css*****************************************/
+
+.ui-button.smallCSS{
+
+    padding-top:10px !important;
+
+    height:35px !important;
+
+    width:35px !important;
+
+}
+
+.ui-button-text{
+
+    font-size:large !important;
+
+}
+
+/*********************************Prime faces outputlabel css *****************/
+
+.ui-outputlabel{
+
+    font-size:1.1em  !important;
+
+    text-transform: uppercase !important;
+
+    font-weight:bolder  !important;
+
+    color: #2F4F4F !important;
+
+}
+
+
+
+/****************************Prime faces checkbox css**************************/
+
+.ui-chkbox .ui-chkbox-label{
+
+    vertical-align: middle !important;
+
+    font-size:10px  !important;
+
+    text-transform: uppercase !important;
+
+}
+
+/*******************************Custom css*************************************/
+
+.select-Many-Checkbox{
+
+    vertical-align: middle !important;
+
+    font-size:10px  !important;
+
+    text-transform: uppercase !important;
+
+}
+
+/*******************************************************************************/
+
+.ui-selectonemenu .ui-selectonemenu-trigger{
+
+    background: #F5F5F5 !important;
+
+}
+
+.ui-fileupload-buttonbar{
+
+    background: #F5F5F5 !important;
+
+    border-color:#DCDCDC !important;
+
+}
+
+.ui-datepicker-prev{
+
+    background: #F5F5F5 !important;
+
+    color: #2F4F4F !important;
+
+    border-color:#DCDCDC !important;
+
+}
+
+.ui-datepicker-next{
+
+    background: #F5F5F5 !important;
+
+    color: #2F4F4F !important;
+
+    border-color:#DCDCDC !important;
+
+}
+
+
+
+.ui-datepicker .ui-datepicker-header{
+
+    background: #F5F5F5 !important;
+
+    border-color:#DCDCDC !important;
+
+}
+
+.ui-datepicker select.ui-datepicker-month,.ui-datepicker select.ui-datepicker-year{
+
+    color: #2F4F4F !important;
+
+}
+
+.ui-datepicker td{
+
+    background: #F5F5F5 !important;
+
+    border-color:#DCDCDC !important;
+
+    height: 45px !important;
+
+}
+
+.ui-dialog-titlebar{
+
+    background: #F5F5F5 !important;
+
+    border-color:#DCDCDC !important;
+
+    color: #2F4F4F !important;
+
+}
+
+.ui-dialog-titlebar-close{
+
+    color: #2F4F4F !important;
+
+}
+
+.ui-dialog-content{
+
+    font-size:10px  !important;
+
+}
+
+.ui-panelgrid .ui-panelgrid-cell{
+
+    background: #F5F5F5 !important;
+
+    border-color:#DCDCDC !important;
+
+}
+
+.ui-datalist-content{
+
+    border: none !important;
+
+    font-size:0.8125em  !important;
+
+    color: #2F4F4F !important;
+
+    text-transform: capitalize !important;
+
+    font-weight: normal !important;
+
+}
+
+.ui-outputlabel.headercss{
+
+    text-align: left !important;
+
+    font-size:30px  !important;
+
+    text-transform: capitalize !important;
+
+    font-weight: bold !important;
+
+    color:#428bca !important;
+
+}
+
+.ui-tabs{
+
+    /*background: #F5F5F5 !important;*/
+
+}
+
+.ui-tabs-header{
+
+    color:#23527c !important;
+
+}
+
+.ui-tabs-nav{
+
+    background: #F5F5F5 !important;
+
+}
+
+.ui-accordion .ui-accordion-header {
+
+    background: #fff ;
+
+    border: none ;
+
+}
+
+.ui-accordion .ui-accordion-header a:hover {
+
+    background: -moz-linear-gradient(center top, rgba(255, 255, 255, 0.6),
+
+        rgba(255, 255, 255, 0)) repeat scroll 0 0 #C3D79C;
+
+    border: none;
+
+    box-shadow: 0 0 8px #000;
+
+    color: black;
+
+    font-weight: bold;
+
+}
+
+.ui-accordion .ui-accordion-content {
+
+    border-top: 0 none;
+
+    margin-bottom: 2px;
+
+    margin-top: 5px;
+
+    overflow: visible !important;
+
+    padding: 0 !important;
+
+    position: relative;
+
+    top: 1px;
+
+}
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active{
+
+    background-color:#DCDCDC !important;
+
+    color:red !important;
+
+}
+
+.ui-selectlistbox-item ui-corner-all ui-state-highlight{
+
+    color:#23527C !important;
+
+}
+
+.ui-selectlistbox-item ui-corner-all ui-state-hover{
+
+    background-color:#23527C !important;
+
+}
+
+.medium{
+
+    width:55px;
+
+}
+
+.xmedium{
+
+    width:85px;
+
+}
+
+.large{
+
+    width:120px;
+
+}
+
+.xlarge{
+
+    width:140px;
+
+}
+
+.xxlarge{
+
+    width:200px;
+
+}
+
+.xxxlarge{
+
+    width:230px;
+
+}
+
+.small{
+
+    width:50px;
+
+}
+
+.xsmall{
+
+    width:20px;
+
+}
+
+.ui-fileupload-buttonbar {
+
+    background: transparent none;
+
+    border: none;
+
+}
+
+.ui-fileupload-content {
+
+    display: none;
+
+}
+
+.ui-fileupload-buttonbar .ui-fileupload-choose {
+
+    width:100% !important;
+
+}
+
+.ui-fileupload-buttonbar .ui-fileupload-upload {
+
+    width:100% !important;
+
+}
+
+.ui-fileupload-buttonbar .ui-fileupload-cancel {
+
+    width:100% !important;
+
+}
+
+body .ui-steps .ui-steps-item {
+
+    width: 33.33%;
+
+}
+
+body .ui-state-highlight {
+
+    text-shadow: none !important;
+
+}
+
+body .ui-steps.custom {
+
+    margin-bottom: 15px;
+
+}
+
+body .ui-steps.custom .ui-steps-item .ui-menuitem-link {
+
+    height: 10px;
+
+    padding: 0 1em;
+
+    overflow: visible;
+
+    border: 1px solid #c8c8c8;
+
+    display: block;
+
+    background-color: #FFFFFF;
+
+}
+
+body .ui-steps.custom .ui-steps-item .ui-menuitem-link .ui-steps-number {
+
+    background-color: #0081c2;
+
+    color: #FFFFFF;
+
+    display: inline-block;
+
+    width: 30px;
+
+    border-radius: 10px;
+
+    margin-top: -10px;
+
+    margin-bottom: 10px;
+
+    position: relative;
+
+    top: -3px;
+
+}
+
+body .ui-steps.custom .ui-steps-item .ui-menuitem-link .ui-steps-title {
+
+    margin-top: -6px;
+
+}
+
+body .ui-steps.custom .ui-steps-item.ui-state-highlight .ui-menuitem-link .ui-steps-title {
+
+    color: #555;
+
+}
+
+body .ui-radiobutton .ui-radiobutton-box.ui-state-active .ui-icon-bullet{
+
+    background: #337ab7 !important;
+
+}
+
+.ui-selectoneradio label {
+
+    font-weight: 400 !important;
+
+}
+
+body .ui-chkbox .ui-chkbox-box.ui-state-active{
+
+    color: #337ab7 !important;
+
+}
+
+.ui-outputlabel.panel-title-css{
+
+    text-align: left !important;
+
+    font-size:13px  !important;
+
+    font-weight: bold !important;
+
+    color:#428bca !important;
+
+}
+
+.ui-outputlabel.welcome-msg-css{
+
+    text-align: left !important;
+
+    font-size:22px  !important;
+
+    text-transform: uppercase !important;
+
+    font-weight: bold !important;
+
+    color:#428bca !important;
+
+}
+
+.ui-fieldset .ui-fieldset-legend.customFieldSetCSS{
+
+    background: none;
+
+    padding-top: 0.2em !important;
+
+    padding-right: 1em;
+
+    padding-bottom: 0.2em !important;
+
+    padding-left: 1em;
+
+    color:#000 !important;
+
+    font-size:10px  !important;
+
+    width: 18.0em !important;
+
+    text-transform: uppercase !important;
+
+}
+
+.ui-fieldset .ui-fieldset-legend{
+
+    background: none;
+
+    padding-top: 0.2em !important;
+
+    padding-right: 1em;
+
+    padding-bottom: 0.2em !important;
+
+    padding-left: 1em;
+
+    color:#428bca !important;
+
+    font-size:1.2em  !important;
+
+    width: 21.875em !important;
+
+    text-transform: uppercase !important;
+
+}
+
+.content-custom-css{
+
+    width: 100%  !important;
+
+    height: 100%
+
+}
+
+.ui-chkbox-all {
+
+    text-align: center;
+
+}
+
+.correct{
+
+    color: green  !important ;
+
+}
+
+.incorrect{
+
+    color:red !important ;
+
+}
+
+.authorised{
+
+    color: green !important ;
+
+}
+
+unauthorised{
+
+    color:red !important;
+
+}
+
+/*******************************Tree*******************************************/
+
+.ui-tree{
+
+    width:600px !important;
+
+}
+
+/*Main container*/
+
+.ui-tree-container{
+
+    width:auto !important;
+
+}
+
+/*root node container.*/
+
+.ui-treenode{
+
+
+
+}
+
+/*Tree node*/
+
+.ui-treenode-content{
+
+
+
+}
+
+/*Tree node content*/
+
+.ui-treenode-icon{
+
+
+
+}
+
+/*Tree node icon*/
+
+.ui-tree-toggler{
+
+
+
+}
+
+/*Toggle icon*/
+
+.ui-treenode-label{
+
+    color:#428bca !important;
+
+    font-size:10px  !important;
+
+}
+
+/*Tree node label*/
+
+.ui-treenode-parent{
+
+
+
+}
+
+/*Nodes with children*/
+
+.ui-treenode-leaf{
+
+
+
+}
+
+.ui-treetable{
+
+
+
+}
+
+.ui-treetable-header{
+
+    font-size:0.98em !important;
+
+    font-family: 'Tangerine', serif !important;
+
+    border-color:#DCDCDC !important;
+
+}
+
+.ui-treetable-data{
+
+    font-size:0.98em !important;
+
+    font-family: 'Tangerine', serif !important;
+
+    border-color:#DCDCDC !important;
+
+}
+
+.ui-dataview{
+
+    border: 1px solid #D4AF37;
+
+}
+
+.ui-dataview-header{
+
+    border: 1px solid #D4AF37;
+
+}
+
+.ui-dataview-content{
+
+    padding: 25px 10px;
+
+}
+
+.ui-dataview-list .ui-dataview-row {
+
+    border-bottom: 1px solid #D4AF37;
+
+    padding: 25px 10px;
+
+    border-bottom-color:#D4AF37;
+
+}
+
+.logo {
+
+    width: 5%;
+
+}
+
+.detail {
+
+    width: 85%;
+
+}
+.menucss{
+    font-size: 1.2em;
+
+}
